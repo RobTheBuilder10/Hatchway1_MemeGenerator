@@ -1,74 +1,60 @@
-const memeImages = [
-    'meme_templates/template1.jpg',
-    'meme_templates/template2.jpg',
-    'meme_templates/template3.jpg',
-    'meme_templates/template4.jpg',
-    'meme_templates/template5.jpg',
-    'meme_templates/template6.jpg',
-    'meme_templates/template7.jpg',
-    'meme_templates/template8.jpg',
-    'meme_templates/template9.jpg',
-    'meme_templates/template10.jpg',
-    'meme_templates/template11.jpg',
-    'meme_templates/template12.jpg',
-    'meme_templates/template13.jpg',
-    'meme_templates/template14.jpg',
-    'meme_templates/template15.jpg',
-    'meme_templates/template16.jpg',
-    'meme_templates/template17.jpg',
-    'meme_templates/template18.jpg',
-    'meme_templates/template19.jpg',
-    'meme_templates/template20.jpg',
-];
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('memeForm');
+    const memeDisplay = document.getElementById('memeDisplay');
+    
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        
+        const topText = document.getElementById('topText').value.trim();
+        const bottomText = document.getElementById('bottomText').value.trim();
+        const memeImageUrl = document.getElementById('memeImageUrl').value.trim();
 
-document.getElementById("generate").addEventListener("click", function() {
-    const memeImage = document.getElementById("memeImage");
-    const topTextDiv = document.querySelector(".top-text");
-    const bottomTextDiv = document.querySelector(".bottom-text");
+        if (!topText || !bottomText || !memeImageUrl) {
+            alert('All fields are required!');
+            return;
+        }
 
-    // Get random meme image from the array
-    const randomMemeImage = memeImages[Math.floor(Math.random() * memeImages.length)];
+        const memeContainer = document.createElement('div'); // New container to wrap the meme and delete button
+        memeContainer.className = 'meme-container';
 
-    const topText = document.getElementById("topText").value;
-    const bottomText = document.getElementById("bottomText").value;
+        // Create the meme display
+        const memeDiv = document.createElement('div');
+        memeDiv.className = 'meme';
 
-    memeImage.setAttribute("src", randomMemeImage);
-    topTextDiv.textContent = topText;
-    bottomTextDiv.textContent = bottomText;
+        const memeImage = new Image();
+        memeImage.src = memeImageUrl;
+        memeImage.onload = function() {
+            memeDiv.style.width = this.width + "px";
+            memeDiv.appendChild(memeImage);
 
-    saveMemeConfiguration(randomMemeImage, topText, bottomText);
+            const topTextDiv = document.createElement('div');
+            topTextDiv.className = 'meme-text top';
+            topTextDiv.innerText = topText;
+            memeDiv.appendChild(topTextDiv);
+
+            const bottomTextDiv = document.createElement('div');
+            bottomTextDiv.className = 'meme-text bottom';
+            bottomTextDiv.innerText = bottomText;
+            memeDiv.appendChild(bottomTextDiv);
+
+            memeContainer.appendChild(memeDiv); // Append memeDiv to memeContainer
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Delete Meme';
+            deleteButton.onclick = function () {
+                memeDisplay.removeChild(memeContainer); // Adjusted to remove memeContainer
+            };
+            memeContainer.appendChild(deleteButton); // Append deleteButton to memeContainer
+
+            memeDisplay.appendChild(memeContainer); // Append memeContainer to memeDisplay
+        };
+        memeImage.onerror = function() {
+            alert('Failed to load image. Please ensure the image URL is correct and the server allows external access (no CORS restriction).');
+        };
+
+        // Clear the form fields
+        document.getElementById('topText').value = '';
+        document.getElementById('bottomText').value = '';
+        document.getElementById('memeImageUrl').value = '';
+    });
 });
-
-function saveMemeConfiguration(image, topText, bottomText) {
-    let memes = JSON.parse(localStorage.getItem('recentMemes')) || [];
-
-    // Create a meme configuration object
-    let memeConfig = {
-        image: image,
-        topText: topText,
-        bottomText: bottomText,
-        timestamp: new Date().getTime()
-    };
-
-    memes.push(memeConfig);
-
-    // Only store the 5 most recent meme configurations
-    if (memes.length > 5) {
-        memes.shift();
-    }
-
-    localStorage.setItem('recentMemes', JSON.stringify(memes));
-}
-
-function loadRecentMemes() {
-    let memes = JSON.parse(localStorage.getItem('recentMemes')) || [];
-    if (memes.length > 0) {
-        const lastMeme = memes[memes.length - 1];
-        document.getElementById("memeImage").setAttribute("src", lastMeme.image);
-        document.querySelector(".top-text").textContent = lastMeme.topText;
-        document.querySelector(".bottom-text").textContent = lastMeme.bottomText;
-    }
-}
-
-// On page load, display the most recent meme
-window.onload = loadRecentMemes;

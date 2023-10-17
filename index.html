@@ -1,30 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Futuristic Meme Generator</title>
+    <title>Retro Meme Generator</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Assuming your CSS is in a file named "styles.css" -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="app">
-        <h1 class="title">Meme Generator</h1>
-        <div class="meme-container">
-            <img id="memeImage" src="" alt="meme background" />
-            <div class="text top-text"></div>
-            <div class="text bottom-text"></div>
+
+<div class="container">
+    <h1>Retro Meme Generator</h1>
+    
+    <form id="memeForm">
+        <div class="form-group">
+            <label for="topText">Top Text:</label>
+            <input type="text" id="topText" required>
         </div>
-        <div class="controls">
-            <label>
-                Top Text: <input type="text" id="topText" placeholder="Enter top text" />
-            </label>
-            <label>
-                Bottom Text: <input type="text" id="bottomText" placeholder="Enter bottom text" />
-            </label>
-            <button id="generate">Generate Meme</button>
+        
+        <div class="form-group">
+            <label for="bottomText">Bottom Text:</label>
+            <input type="text" id="bottomText" required>
         </div>
+
+        <div class="form-group">
+            <label for="memeImageUrl">Image URL:</label>
+            <input type="url" id="memeImageUrl" placeholder="Enter a valid image URL" required>
+        </div>
+        
+        <button type="submit">Generate Meme</button>
+    </form>
+
+    <div id="memeDisplay"></div>
+</div>
+
+<!-- Meme Modal -->
+<div id="memeModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div class="meme-preview"></div>
     </div>
-    <script src="script.js"></script>
+</div>
+
+<script src="script.js"></script> <!-- Assuming your JS is in a file named "script.js" -->
 </body>
 </html>
