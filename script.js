@@ -37,16 +37,20 @@ document.addEventListener('DOMContentLoaded', function () {
             bottomTextDiv.innerText = bottomText;
             memeDiv.appendChild(bottomTextDiv);
 
-            memeContainer.appendChild(memeDiv); // Append memeDiv to memeContainer
+            memeContainer.appendChild(memeDiv); 
+            // Append memeDiv to memeContainer
 
             const deleteButton = document.createElement('button');
             deleteButton.innerText = 'Delete Meme';
             deleteButton.onclick = function () {
-                memeDisplay.removeChild(memeContainer); // Adjusted to remove memeContainer
+                memeDisplay.removeChild(memeContainer); 
+                // Adjusted to remove memeContainer
             };
-            memeContainer.appendChild(deleteButton); // Append deleteButton to memeContainer
+            memeContainer.appendChild(deleteButton); 
+            // Append deleteButton to memeContainer
 
-            memeDisplay.appendChild(memeContainer); // Append memeContainer to memeDisplay
+            memeDisplay.appendChild(memeContainer); 
+            // Append memeContainer to memeDisplay
         };
         memeImage.onerror = function() {
             alert('Failed to load image. Please ensure the image URL is correct and the server allows external access (no CORS restriction).');
